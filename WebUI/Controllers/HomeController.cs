@@ -1,4 +1,5 @@
 ﻿using DataAccess.Context;
+using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -20,18 +21,41 @@ namespace WebUI.Controllers
         public IActionResult Index(int id)
         {
             var model = _context.AgriHastaBakimPlanlari
-                 .Include(a => a.Hasta)
-                 .Include(a => a.Hemsire)
-                 .Include(a => a.Girisimler)
-                 .Include(a => a.Sonuclar)
-                 .FirstOrDefault(a => a.Id == id);
+                .Include(a => a.Hasta)
+                .Include(a => a.Hemsire)
+                .Include(a => a.Girisimler)
+                .Include(a => a.Sonuclar)
+                .FirstOrDefault(a => a.Id == id);
 
             if (model == null)
             {
                 return NotFound();
             }
 
+            ViewBag.Girisimler = _context.Girisimler.Where(g => g.Id == id).ToList();
+
             return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult EkleGirisim(int id, string girisim)
+        {
+            var yeniGirisim = new Girisim
+            {
+                Id = id,
+                Description = girisim
+            };
+
+            _context.Girisimler.Add(yeniGirisim);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", new { id = id });
+        }
+
+        public IActionResult HastaListesi()
+        {
+            var hastalar = _context.Hastalar.ToList();
+            return View(hastalar);
         }
 
         public IActionResult Privacy()

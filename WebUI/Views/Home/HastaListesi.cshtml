@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Entities.Concrete.Hasta>
+
+@{
+    ViewData["Title"] = "Hasta Listesi";
+}
+
+<h2>Hasta Listesi</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Ad</th>
+            <th>Soyad</th>
+            <th>Detay</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var hasta in Model)
+        {
+            <tr>
+                <td>@hasta.Ad</td>
+                <td>@hasta.Soyad</td>
+                <td>
+                    <a asp-controller="Home" asp-action="Index" asp-route-id="@hasta.Id">Detay</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

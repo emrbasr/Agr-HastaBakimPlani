@@ -3,14 +3,15 @@
 @{
     ViewData["Title"] = "Ağrı Hasta Bakım Planı";
 }
+
 <div class="container">
     @if (Model != null)
     {
         <div class="row">
             <div class="col-md-12 text-center">
-                <img src="path/to/hospital-logo.png" alt="Hastane Logosu" class="img-fluid" />
+                <img src="~/images/hospital-logo.png" alt="Hastane Logosu" class="img-fluid" />
                 <h1>Ağrı Hasta Bakım Planı</h1>
-                <img src="path/to/health-ministry-logo.png" alt="Sağlık Bakanlığı Logosu" class="img-fluid" />
+                <img src="~/images/health-ministry-logo.png" alt="Sağlık Bakanlığı Logosu" class="img-fluid" />
             </div>
         </div>
 
@@ -39,6 +40,63 @@
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Hasta Adı:</strong> @Model.Hasta?.Ad @Model.Hasta?.Soyad</p>
+                <p><strong>Doğum Tarihi:</strong> @Model.Hasta?.DogumTarihi.ToString("dd.MM.yyyy")</p>
+                <p><strong>Tanı:</strong> @Model.TaniOlculeri</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Hemşirelik Tanısı:</strong> @Model.Hemsire?.Ad @Model.Hemsire?.Soyad</p>
+                <p><strong>Tanım:</strong> @Model.Neden</p>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h2>Ağrı</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Amacı</th>
+                            <th>Girişimler</th>
+                            <th>Değerlendirme</th>
+                            <th>Süreç</th>
+                            <th>Sonuç</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Model.Amac</td>
+                            <td>
+                                <ul>
+                                    @foreach (var item in ViewBag.Girisimler)
+                                    {
+                                        <li>@item.Description</li>
+                                    }
+                                </ul>
+                                <form asp-action="EkleGirisim" method="post">
+                                    <input type="hidden" name="id" value="@Model.Id" />
+                                    <input type="text" name="girisim" />
+                                    <button type="submit">+</button>
+                                </form>
+                            </td>
+                            <td>@Model.Degerlendirme</td>
+                            <td>@Model.Tarih.ToString("dd.MM.yyyy")</td>
+                            <td>
+                                <ul>
+                                    @foreach (var item in Model.Sonuclar)
+                                    {
+                                        <li>@item.Description</li>
+                                    }
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+@* 
         <div class="row mt-4">
             <div class="col-md-12">
                 <table class="table table-bordered">
@@ -106,7 +164,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div> *@
     }
     else
     {
