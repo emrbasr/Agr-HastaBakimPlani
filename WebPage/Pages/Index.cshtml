@@ -1,0 +1,76 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Ağrı Hasta Bakım Planı";
+}
+
+<h1>Ağrı Hasta Bakım Planı</h1>
+
+<form method="post">
+    <div>
+        <label for="hastaAd">Hasta Adı:</label>
+        <input type="text" id="hastaAd" name="hastaAd" />
+    </div>
+    <div>
+        <label for="hastaSoyad">Hasta Soyadı:</label>
+        <input type="text" id="hastaSoyad" name="hastaSoyad" />
+    </div>
+    <div>
+        <label for="tarih">Tarih:</label>
+        <input type="date" id="tarih" name="tarih" />
+    </div>
+
+    <div>
+        <label for="neden">Neden:</label>
+        <textarea id="neden" name="neden"></textarea>
+        <button type="button" onclick="addItem('nedenList', 'neden')">+</button>
+        <ul id="nedenList"></ul>
+    </div>
+    <div>
+        <label for="taniOlculeri">Tanı Ölçütleri:</label>
+        <textarea id="taniOlculeri" name="taniOlculeri"></textarea>
+        <button type="button" onclick="addItem('taniOlculeriList', 'taniOlculeri')">+</button>
+        <ul id="taniOlculeriList"></ul>
+    </div>
+    <div>
+        <label for="amac">Amaç:</label>
+        <textarea id="amac" name="amac"></textarea>
+        <button type="button" onclick="addItem('amacList', 'amac')">+</button>
+        <ul id="amacList"></ul>
+    </div>
+    <div>
+        <label for="degerlendirme">Değerlendirme:</label>
+        <textarea id="degerlendirme" name="degerlendirme"></textarea>
+        <button type="button" onclick="addItem('degerlendirmeList', 'degerlendirme')">+</button>
+        <ul id="degerlendirmeList"></ul>
+    </div>
+    <div>
+        <label for="not">Not:</label>
+        <textarea id="not" name="not"></textarea>
+    </div>
+    <button type="submit">Kaydet</button>
+</form>
+
+@section Scripts {
+    <script>
+        function addItem(listId, inputId) {
+            var input = document.getElementById(inputId);
+            var list = document.getElementById(listId);
+
+            if (input.value.trim() !== "") {
+                var li = document.createElement("li");
+                var checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.name = listId + "[]";
+                checkbox.value = input.value;
+                checkbox.checked = true;
+
+                li.appendChild(checkbox);
+                li.appendChild(document.createTextNode(input.value));
+                list.appendChild(li);
+
+                input.value = "";
+            }
+        }
+    </script>
+}

@@ -1,0 +1,98 @@
+﻿@model Entities.Concrete.AgriHastaBakimPlani
+
+@{
+    ViewData["Title"] = "Ağrı Hasta Bakım Planı";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <img src="path/to/hospital-logo.png" alt="Hastane Logosu" class="img-fluid" />
+            <h1>Ağrı Hasta Bakım Planı</h1>
+            <img src="path/to/health-ministry-logo.png" alt="Sağlık Bakanlığı Logosu" class="img-fluid" />
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Döküman No</th>
+                        <th>Yayın Tarihi</th>
+                        <th>Rev.No</th>
+                        <th>Rev.Tarihi</th>
+                        <th>Sayfa No</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>KLN.PL.05</td>
+                        <td>01.08.2016</td>
+                        <td>00</td>
+                        <td>01.08.2016</td>
+                        <td>1/1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Hastanın Adı Soyadı</th>
+                        <th>Hemşirelik Tanısı</th>
+                        <th>Doğum Tarihi</th>
+                        <th>Tanım</th>
+                        <th>Tanı</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Model.Hasta.Ad @Model.Hasta.Soyad</td>
+                        <td>@Model.Hemsire.Ad @Model.Hemsire.Soyad</td>
+                        <td>@Model.Hasta.DogumTarihi.ToString("dd.MM.yyyy")</td>
+                        <td>@Model.Neden</td>
+                        <td>@Model.TaniOlculeri</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h2>Ağrı</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Amacı</th>
+                        <th>Girişimler</th>
+                        <th>Değerlendirme</th>
+                        <th>Süreç</th>
+                        <th>Sonuç</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Model.Amac</td>
+                        <td>@Model.Degerlendirme</td>
+                        <td>@Model.Tarih.ToString("dd.MM.yyyy")</td>
+                        <td>
+                            <ul>
+                                @foreach (var item in Model.Girisimler)
+                                {
+                                    <li>@item</li>
+                                }
+                            </ul>
+                        </td>
+                        <td>@Model.Sonuclar</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
