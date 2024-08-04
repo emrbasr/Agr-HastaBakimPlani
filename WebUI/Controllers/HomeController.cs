@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using WebUI.Models;
+using WebUI.Models.Dtos;
 
 namespace WebUI.Controllers
 {
@@ -42,7 +43,7 @@ namespace WebUI.Controllers
         {
             var yeniGirisim = new Girisim
             {
-                Id = id,
+                AgriHastaBakimPlaniId = id,
                 Description = girisim
             };
 
@@ -54,7 +55,15 @@ namespace WebUI.Controllers
 
         public IActionResult HastaListesi()
         {
-            var hastalar = _context.Hastalar.ToList();
+            var hastalar = _context.Hastalar
+         .Select(h => new HastaDetayDto
+         {
+             HastaId = h.Id,
+             AgriHastaBakimPlaniId = h.AgriHastaBakimPlanlari.FirstOrDefault().Id,
+             HastaAdi = h.Ad,
+             HastaSoyadi = h.Soyad
+         }).ToList();
+
             return View(hastalar);
         }
 

@@ -20,3 +20,19 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Logolar arasýndaki boþluk */
+}
+
+.logo {
+    max-width: 100px; /* Logolarýn maksimum geniþliði */
+    height: auto;
+}
+
+.header-title {
+    margin: 0 20px;
+}

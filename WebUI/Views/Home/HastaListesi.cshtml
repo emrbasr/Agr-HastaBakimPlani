@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Entities.Concrete.Hasta>
+﻿@model IEnumerable<WebUI.Models.Dtos.HastaDetayDto>
 
 @{
     ViewData["Title"] = "Hasta Listesi";
@@ -18,10 +18,10 @@
         @foreach (var hasta in Model)
         {
             <tr>
-                <td>@hasta.Ad</td>
-                <td>@hasta.Soyad</td>
+                <td>@hasta.HastaAdi</td>
+                <td>@hasta.HastaSoyadi</td>
                 <td>
-                    <a asp-controller="Home" asp-action="Index" asp-route-id="@hasta.Id">Detay</a>
+                    <a asp-controller="Home" asp-action="Index" asp-route-id="@hasta.AgriHastaBakimPlaniId">Detay</a>
                 </td>
             </tr>
         }

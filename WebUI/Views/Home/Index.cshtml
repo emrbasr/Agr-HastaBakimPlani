@@ -7,13 +7,18 @@
 <div class="container">
     @if (Model != null)
     {
+        
+
         <div class="row">
             <div class="col-md-12 text-center">
-                <img src="~/images/hospital-logo.png" alt="Hastane Logosu" class="img-fluid" />
-                <h1>Ağrı Hasta Bakım Planı</h1>
-                <img src="~/images/health-ministry-logo.png" alt="Sağlık Bakanlığı Logosu" class="img-fluid" />
+                <div class="header-container">
+                    <img src="~/images/HastahaneLogo.png" alt="Hastane Logosu" class="logo" />
+                    <h1 class="header-title">Ağrı Hasta Bakım Planı</h1>
+                    <img src="~/images/BakanlıkLogo.png" alt="Sağlık Bakanlığı Logosu" class="logo" />
+                </div>
             </div>
         </div>
+
 
         <div class="row mt-4">
             <div class="col-md-12">
@@ -44,15 +49,63 @@
             <div class="col-md-6">
                 <p><strong>Hasta Adı:</strong> @Model.Hasta?.Ad @Model.Hasta?.Soyad</p>
                 <p><strong>Doğum Tarihi:</strong> @Model.Hasta?.DogumTarihi.ToString("dd.MM.yyyy")</p>
-                <p><strong>Tanı:</strong> @Model.TaniOlculeri</p>
+                <p><strong>Tanı:</strong> @Model.Hasta?.Tani</p>
             </div>
             <div class="col-md-6">
-                <p><strong>Hemşirelik Tanısı:</strong> @Model.Hemsire?.Ad @Model.Hemsire?.Soyad</p>
-                <p><strong>Tanım:</strong> @Model.Neden</p>
+                <p><strong>Hemşirelik Tanısı:</strong> @Model.Hasta?.HemsireTanisi</p>
+                <p><strong>Tanım:</strong> @Model.Hasta?.Tanim</p>
             </div>
         </div>
 
         <div class="row mt-4">
+            <div class="col-md-12">
+                <h2>Ağrı</h2>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Amacı</th>
+                            <th>Girişimler</th>
+                            <th>Değerlendirme</th>
+                            <th>Süreç</th>
+                            <th>Sonuç</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Model.Amac</td>
+                            <td>
+                                <ul id="girisimlerList">
+                                    @for (int i = 0; i < Model.Girisimler.Count; i++)
+                                    {
+                                        <li>@(i + 1). @Model.Girisimler[i].Description</li>
+                                    }
+                                </ul>
+                                <form asp-action="EkleGirisim" method="post">
+                                    <input type="hidden" name="id" value="@Model.Id" />
+                                    <input type="text" name="girisim" id="girisimlerInput" />
+                                    <button type="submit">+</button>
+                                </form>
+                            </td>
+                            <td>@Model.Degerlendirme</td>
+                            <td>@Model.Tarih.ToString("dd.MM.yyyy")</td>
+                            <td>
+                                <ul id="sonucList">
+                                    @foreach (var item in Model.Sonuclar)
+                                    {
+                                        <li>@item.Description</li>
+                                    }
+                                </ul>
+                                <input type="text" id="sonucInput" />
+                                <button type="button" onclick="addItem('sonucList', 'sonucInput')">+</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        @* <div class="row mt-4">
             <div class="col-md-12">
                 <h2>Ağrı</h2>
                 <table class="table table-bordered">
@@ -95,76 +148,8 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-@* 
-        <div class="row mt-4">
-            <div class="col-md-12">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Hastanın Adı Soyadı</th>
-                            <th>Hemşirelik Tanısı</th>
-                            <th>Doğum Tarihi</th>
-                            <th>Tanım</th>
-                            <th>Tanı</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>@Model.Hasta?.Ad @Model.Hasta?.Soyad</td>
-                            <td>@Model.Hemsire?.Ad @Model.Hemsire?.Soyad</td>
-                            <td>@Model.Hasta?.DogumTarihi.ToString("dd.MM.yyyy")</td>
-                            <td>@Model.Neden</td>
-                            <td>@Model.TaniOlculeri</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-md-12">
-                <h2>Ağrı</h2>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Amacı</th>
-                            <th>Girişimler</th>
-                            <th>Değerlendirme</th>
-                            <th>Süreç</th>
-                            <th>Sonuç</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>@Model.Amac</td>
-                            <td>
-                                <ul id="girisimlerList">
-                                    @foreach (var item in Model.Girisimler)
-                                    {
-                                        <li>@item.Description</li>
-                                    }
-                                </ul>
-                                <input type="text" id="girisimlerInput" />
-                                <button type="button" onclick="addItem('girisimlerList', 'girisimlerInput')">+</button>
-                            </td>
-                            <td>@Model.Degerlendirme</td>
-                            <td>@Model.Tarih.ToString("dd.MM.yyyy")</td>
-                            <td>
-                                <ul id="sonucList">
-                                    @foreach (var item in Model.Sonuclar)
-                                    {
-                                        <li>@item.Description</li>
-                                    }
-                                </ul>
-                                <input type="text" id="sonucInput" />
-                                <button type="button" onclick="addItem('sonucList', 'sonucInput')">+</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
         </div> *@
+
     }
     else
     {
