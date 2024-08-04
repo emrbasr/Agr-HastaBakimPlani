@@ -4,6 +4,7 @@ using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240804115322_AgirHastaPlanEntityProtertyy")]
+    partial class AgirHastaPlanEntityProtertyy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,8 +33,16 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Amac")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Degerlendirme")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("HastaId")
                         .HasColumnType("int");
@@ -39,12 +50,17 @@ namespace DataAccess.Migrations
                     b.Property<int>("HemsireId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Neden")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Not")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Saat")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("TaniOlculeri")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Tarih")
                         .HasColumnType("datetime2");
@@ -189,28 +205,6 @@ namespace DataAccess.Migrations
                     b.ToTable("Hemsireler");
                 });
 
-            modelBuilder.Entity("Entities.Concrete.Sonuc", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AgriHastaBakimPlaniId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AgriHastaBakimPlaniId");
-
-                    b.ToTable("Sonuclar");
-                });
-
             modelBuilder.Entity("Entities.Concrete.AgriHastaBakimPlani", b =>
                 {
                     b.HasOne("Entities.Concrete.Hasta", "Hasta")
@@ -260,17 +254,6 @@ namespace DataAccess.Migrations
                     b.Navigation("AgriHastaBakimPlani");
                 });
 
-            modelBuilder.Entity("Entities.Concrete.Sonuc", b =>
-                {
-                    b.HasOne("Entities.Concrete.AgriHastaBakimPlani", "AgriHastaBakimPlani")
-                        .WithMany("Sonuclar")
-                        .HasForeignKey("AgriHastaBakimPlaniId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AgriHastaBakimPlani");
-                });
-
             modelBuilder.Entity("Entities.Concrete.AgriHastaBakimPlani", b =>
                 {
                     b.Navigation("Amaclar");
@@ -280,8 +263,6 @@ namespace DataAccess.Migrations
                     b.Navigation("Girisimler");
 
                     b.Navigation("Nedenler");
-
-                    b.Navigation("Sonuclar");
 
                     b.Navigation("TaniOlcutleri");
                 });

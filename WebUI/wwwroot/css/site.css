@@ -36,3 +36,18 @@ body {
 .header-title {
     margin: 0 20px;
 }
+
+.table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+    .table th, .table td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+        .table td form {
+            margin-top: 10px;
+        }
+

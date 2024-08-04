@@ -25,12 +25,26 @@ namespace WebUI.Controllers
                 .Include(a => a.Hasta)
                 .Include(a => a.Hemsire)
                 .Include(a => a.Girisimler)
-                .Include(a => a.Sonuclar)
+                .Include(a => a.Nedenler) 
+                .Include(a => a.TaniOlcutleri) 
+                .Include(a => a.Amaclar) 
                 .FirstOrDefault(a => a.Id == id);
+
+
 
             if (model == null)
             {
                 return NotFound();
+            }
+
+            if (model.Degerlendirmeler == null)
+            {
+                model.Degerlendirmeler = new List<CheckboxItem>();
+            }
+
+            if (model.Sonuclar == null)
+            {
+                model.Sonuclar = new List<Sonuc>();
             }
 
             ViewBag.Girisimler = _context.Girisimler.Where(g => g.Id == id).ToList();

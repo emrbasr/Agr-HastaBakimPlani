@@ -15,6 +15,7 @@ namespace DataAccess.Context
         public DbSet<Hemsire> Hemsireler { get; set; }
         public DbSet<Girisim> Girisimler { get; set; }
         public DbSet<Sonuc> Sonuclar { get; set; }
+        public DbSet<CheckboxItem> CheckboxItems { get; set; }
         public DbSet<AgriHastaBakimPlani> AgriHastaBakimPlanlari { get; set; }
 
         public ApplicationDbContext()
@@ -45,10 +46,7 @@ namespace DataAccess.Context
             .WithMany(p => p.Girisimler)
             .HasForeignKey(g => g.AgriHastaBakimPlaniId);
 
-            modelBuilder.Entity<Sonuc>()
-                .HasOne(s => s.AgriHastaBakimPlani)
-                .WithMany(p => p.Sonuclar)
-                .HasForeignKey(s => s.AgriHastaBakimPlaniId);
+           
 
 
         }

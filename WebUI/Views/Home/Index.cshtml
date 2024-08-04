@@ -57,96 +57,159 @@
             </div>
         </div>
 
-        <div class="row mt-4">
-            <div class="col-md-12">
-                <h2>Ağrı</h2>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Amacı</th>
-                            <th>Girişimler</th>
-                            <th>Değerlendirme</th>
-                            <th>Süreç</th>
-                            <th>Sonuç</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>@Model.Amac</td>
-                            <td>
-                                <ul id="girisimlerList">
-                                    @for (int i = 0; i < Model.Girisimler.Count; i++)
-                                    {
-                                        <li>@(i + 1). @Model.Girisimler[i].Description</li>
-                                    }
-                                </ul>
-                                <form asp-action="EkleGirisim" method="post">
-                                    <input type="hidden" name="id" value="@Model.Id" />
-                                    <input type="text" name="girisim" id="girisimlerInput" />
-                                    <button type="submit">+</button>
-                                </form>
-                            </td>
-                            <td>@Model.Degerlendirme</td>
-                            <td>@Model.Tarih.ToString("dd.MM.yyyy")</td>
-                            <td>
-                                <ul id="sonucList">
-                                    @foreach (var item in Model.Sonuclar)
-                                    {
-                                        <li>@item.Description</li>
-                                    }
-                                </ul>
-                                <input type="text" id="sonucInput" />
-                                <button type="button" onclick="addItem('sonucList', 'sonucInput')">+</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+         <div class="row mt-4">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 8.33%">Neden</th>
+                        <th style="width: 16.66%">Tanı Ölçütleri</th>
+                        <th style="width: 8.33%">Amaç</th>
+                        <th style="width: 33.33%">Girişimler</th>
+                        <th style="width: 8.33%">Değerlendirme</th>
+                        
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            @foreach (var item in Model.Nedenler)
+                            {
+                                <div>
+                                    <input type="checkbox" id="neden_@item.Id" name="neden_@item.Id" @(item.IsChecked ? "checked" : "") disabled />
+                                    <label for="neden_@item.Id">@item.Description</label>
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            @foreach (var item in Model.TaniOlcutleri)
+                            {
+                                <div>
+                                    <input type="checkbox" id="taniOlculeri_@item.Id" name="taniOlculeri_@item.Id" @(item.IsChecked ? "checked" : "") disabled />
+                                    <label for="taniOlculeri_@item.Id">@item.Description</label>
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            @foreach (var item in Model.Amaclar)
+                            {
+                                <div>
+                                    <input type="checkbox" id="amac_@item.Id" name="amac_@item.Id" @(item.IsChecked ? "checked" : "") disabled />
+                                    <label for="amac_@item.Id">@item.Description</label>
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            <ul>
+                                @foreach (var item in Model.Girisimler)
+                                {
+                                    <li>@item.Description</li>
+                                }
+                            </ul>
+                            <form asp-action="EkleGirisim" method="post">
+                                <input type="hidden" name="id" value="@Model.Id" />
+                                <input type="text" name="girisim" />
+                                <button type="submit">+</button>
+                            </form>
+                        </td>
+                       
+                        <td>
+                            @foreach (var item in Model.Degerlendirmeler)
+                            {
+                                <div>
+                                    <strong>Tarih:</strong> @Model.Tarih.ToShortDateString()
+                                </div>
+                                <div>
+                                    <strong>Saat:</strong> @Model.Tarih.ToShortTimeString()
+                                </div>
+                                <div>
+                                    <strong>Değerlendirme</strong>
+                                </div>
+                                <div>
+                                    <input type="radio" id="degerlendirme_@item.Id" name="degerlendirme" value="@item.Description" @(item.IsChecked ? "checked" : "") disabled />
+                                    <label for="degerlendirme_@item.Id">@item.Description</label>
+                                </div>
+
+                                <div>
+                                    <input type="checkbox" name="degerlendirme1" value="1" /> Sorun giderildi<br />
+                                    <input type="checkbox" name="degerlendirme2" value="2" /> Sorun kısmen giderildi<br />
+                                    <input type="checkbox" name="degerlendirme3" value="3" /> Sorun giderilmedi<br />
+                                </div>
+                                <label for="not">Not:</label>
+                                <input type="text" id="not" name="not" />
+                                <button type="button" onclick="addNote()">+</button>
+                                <ul id="noteList"></ul>
+                            }
+                            
+                            
+                        </td>
+                       
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        @* <div class="row mt-4">
+            <div class="col-md-6">
+                <h2>Neden</h2>
+                <ul>
+                    @foreach (var item in Model.Nedenler)
+                    {
+                        <li>
+                            <input type="checkbox" @(item.IsChecked ? "checked" : "") /> @item.Description
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h2>Tanı Ölçütleri</h2>
+                <ul>
+                    @foreach (var item in Model.TaniOlcutleri)
+                    {
+                        <li>
+                            <input type="checkbox" @(item.IsChecked ? "checked" : "") /> @item.Description
+                        </li>
+                    }
+                </ul>
             </div>
         </div>
 
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h2>Amacı</h2>
+                <ul>
+                    @foreach (var item in Model.Amaclar)
+                    {
+                        <li>
+                            <input type="checkbox" @(item.IsChecked ? "checked" : "") /> @item.Description
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h2>Değerlendirme</h2>
+                <input type="checkbox" name="degerlendirme" value="1" /> Sorun giderildi<br />
+                <input type="checkbox" name="degerlendirme" value="2" /> Sorun kısmen giderildi<br />
+                <input type="checkbox" name="degerlendirme" value="3" /> Sorun giderilmedi<br />
+                <label for="not">Not:</label>
+                <input type="text" id="not" name="not" />
+                <button type="button" onclick="addNote()">+</button>
+                <ul id="noteList"></ul>
+            </div>
+        </div>
 
-        @* <div class="row mt-4">
+        <div class="row mt-4">
             <div class="col-md-12">
-                <h2>Ağrı</h2>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Amacı</th>
-                            <th>Girişimler</th>
-                            <th>Değerlendirme</th>
-                            <th>Süreç</th>
-                            <th>Sonuç</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>@Model.Amac</td>
-                            <td>
-                                <ul>
-                                    @foreach (var item in ViewBag.Girisimler)
-                                    {
-                                        <li>@item.Description</li>
-                                    }
-                                </ul>
-                                <form asp-action="EkleGirisim" method="post">
-                                    <input type="hidden" name="id" value="@Model.Id" />
-                                    <input type="text" name="girisim" />
-                                    <button type="submit">+</button>
-                                </form>
-                            </td>
-                            <td>@Model.Degerlendirme</td>
-                            <td>@Model.Tarih.ToString("dd.MM.yyyy")</td>
-                            <td>
-                                <ul>
-                                    @foreach (var item in Model.Sonuclar)
-                                    {
-                                        <li>@item.Description</li>
-                                    }
-                                </ul>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <h2>Girişimler</h2>
+                <ul>
+                    @foreach (var item in Model.Girisimler)
+                    {
+                        <li>@item.Description</li>
+                    }
+                </ul>
+                <input type="text" id="girisimInput" />
+                <button type="button" onclick="addGirisim()">+</button>
             </div>
         </div> *@
 
@@ -174,6 +237,32 @@
                 checkbox.checked = true;
 
                 li.appendChild(checkbox);
+                li.appendChild(document.createTextNode(input.value));
+                list.appendChild(li);
+
+                input.value = "";
+            }
+        }
+
+        function addNote() {
+            var input = document.getElementById("not");
+            var list = document.getElementById("noteList");
+
+            if (input.value.trim() !== "") {
+                var li = document.createElement("li");
+                li.appendChild(document.createTextNode(input.value));
+                list.appendChild(li);
+
+                input.value = "";
+            }
+        }
+
+        function addGirisim() {
+            var input = document.getElementById("girisimInput");
+            var list = document.getElementById("girisimList");
+
+            if (input.value.trim() !== "") {
+                var li = document.createElement("li");
                 li.appendChild(document.createTextNode(input.value));
                 list.appendChild(li);
 

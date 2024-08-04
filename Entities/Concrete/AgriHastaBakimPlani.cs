@@ -7,10 +7,7 @@ namespace Entities.Concrete
     {
         public int Id { get; set; }
         public DateTime Tarih { get; set; }
-        public string Neden { get; set; }
-        public string TaniOlculeri { get; set; }
-        public string Amac { get; set; }
-        public string Degerlendirme { get; set; }
+        public DateTime Saat { get; set; }
         public string Not { get; set; }
 
        
@@ -22,6 +19,11 @@ namespace Entities.Concrete
         public Hemsire Hemsire { get; set; }
 
         public List<Girisim> Girisimler { get; set; }
-        public List<Sonuc> Sonuclar { get; set; }
+        public List<CheckboxItem> Nedenler { get; set; }
+        public List<CheckboxItem> TaniOlcutleri { get; set; }
+        public List<CheckboxItem> Amaclar { get; set; }
+        public List<CheckboxItem> Degerlendirmeler { get; set; } = new List<CheckboxItem>();
+        public List<Sonuc> Sonuclar { get; set; } = new List<Sonuc>();
+
     }
 }
