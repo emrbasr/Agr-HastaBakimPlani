@@ -4,6 +4,15 @@
     ViewData["Title"] = "Ağrı Hasta Bakım Planı";
 }
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Değerlendirme</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
 <div class="container">
     @if (Model != null)
     {
@@ -48,7 +57,7 @@
         <div class="row">
             <div class="col-md-6">
                 <p><strong>Hasta Adı:</strong> @Model.Hasta?.Ad @Model.Hasta?.Soyad</p>
-                <p><strong>Doğum Tarihi:</strong> @Model.Hasta?.DogumTarihi.("dd.MM.yyyy")</p>
+                <p><strong>Doğum Tarihi:</strong> @Model.Hasta?.DogumTarihi</p>
                 <p><strong>Tanı:</strong> @Model.Hasta?.Tani</p>
             </div>
             <div class="col-md-6">
@@ -131,7 +140,7 @@
                         <td>
                             <div class="evaluation-group">
                                 <div class="evaluation-item">
-                                    <form method="post" asp-action="DegerlendirmeAddDetails1" asp-controller="Home">
+                                    <form id="form1" method="post" asp-action="DegerlendirmeAddDetails1" asp-controller="Home">
                                         <input type="hidden" name="id" value="@Model.Id" />
                                         <input type="text" name="tarih1" placeholder="Tarih" />
                                         <input type="text" name="saat1" placeholder="Saat" />
@@ -146,19 +155,20 @@
                                                 <input type="radio" name="degerlendirme1" value="sorunGiderilmedi" /> Sorun giderilmedi
                                             </div>
                                         </div>
-                                        <ul id="notlarListesi">
-                                            @foreach (var degerlendirme in Model.Degerlendirmeler)
-                                            {
-                                                <li>@degerlendirme.Not</li>
-                                            }
-                                        </ul>
                                         <h5>Not:</h5>
                                         <textarea id="notInput1" rows="3" name="Not1"></textarea>
-                                        <button type="submit">Kaydet</button>
+                                        <button type="button" onclick="submitForm('form1', 'notlarListesi1')">Kaydet</button>
                                     </form>
+                                    <ul id="notlarListesi1">
+                                        @foreach (var degerlendirme in Model.Degerlendirmeler)
+                                        {
+                                            <li>@degerlendirme.Not</li>
+                                        }
+                                    </ul>
                                 </div>
                                 <div class="evaluation-item">
-                                    <form method="post" asp-action="DegerlendirmeAddDetails2" asp-controller="Home">
+                                    <form id="form2" method="post" asp-action="DegerlendirmeAddDetails2" asp-controller="Home">
+                                        <input type="hidden" name="id" value="@Model.Id" />
                                         <input type="text" name="tarih2" placeholder="Tarih" />
                                         <input type="text" name="saat2" placeholder="Saat" />
                                         <div class="checkbox-group">
@@ -174,11 +184,18 @@
                                         </div>
                                         <h5>Not:</h5>
                                         <textarea id="notInput2" rows="3" name="Not2"></textarea>
-                                        <button type="submit">Kaydet</button>
+                                        <button type="button" onclick="submitForm('form2', 'notlarListesi2')">Kaydet</button>
                                     </form>
+                                    <ul id="notlarListesi2">
+                                        @foreach (var degerlendirme in Model.Degerlendirmeler.Where(d => d.HastaId == @Model.Id && d.Not != null))
+                                        {
+                                            <li>@degerlendirme.Not</li>
+                                        }
+                                    </ul>
                                 </div>
                                 <div class="evaluation-item">
-                                    <form method="post" asp-action="DegerlendirmeAddDetails3" asp-controller="Home">
+                                    <form id="form3" method="post" asp-action="DegerlendirmeAddDetails3" asp-controller="Home">
+                                        <input type="hidden" name="id" value="@Model.Id" />
                                         <input type="text" name="tarih3" placeholder="Tarih" />
                                         <input type="text" name="saat3" placeholder="Saat" />
                                         <div class="checkbox-group">
@@ -194,11 +211,18 @@
                                         </div>
                                         <h5>Not:</h5>
                                         <textarea id="notInput3" rows="3" name="Not3"></textarea>
-                                        <button type="submit">Kaydet</button>
+                                        <button type="button" onclick="submitForm('form3', 'notlarListesi3')">Kaydet</button>
                                     </form>
+                                    <ul id="notlarListesi3">
+                                        @foreach (var degerlendirme in Model.Degerlendirmeler.Where(d => d.HastaId == @Model.Id && d.Not != null))
+                                        {
+                                            <li>@degerlendirme.Not</li>
+                                        }
+                                    </ul>
                                 </div>
                                 <div class="evaluation-item">
-                                    <form method="post" asp-action="DegerlendirmeAddDetails4" asp-controller="Home">
+                                    <form id="form4" method="post" asp-action="DegerlendirmeAddDetails4" asp-controller="Home">
+                                        <input type="hidden" name="id" value="@Model.Id" />
                                         <input type="text" name="tarih4" placeholder="Tarih" />
                                         <input type="text" name="saat4" placeholder="Saat" />
                                         <div class="checkbox-group">
@@ -214,8 +238,14 @@
                                         </div>
                                         <h5>Not:</h5>
                                         <textarea id="notInput4" rows="3" name="Not4"></textarea>
-                                        <button type="submit">Kaydet</button>
+                                        <button type="button" onclick="submitForm('form4', 'notlarListesi4')">Kaydet</button>
                                     </form>
+                                    <ul id="notlarListesi4">
+                                        @foreach (var degerlendirme in Model.Degerlendirmeler.Where(d => d.HastaId == @Model.Id && d.Not != null))
+                                        {
+                                            <li>@degerlendirme.Not</li>
+                                        }
+                                    </ul>
                                 </div>
                             </div>
                         </td>
@@ -395,16 +425,27 @@
             }
         }
 
-        function submitForm(formId) {
+        function submitForm(formId, listId) {
             var form = $('#' + formId);
             $.ajax({
                 url: form.attr('action'),
                 type: form.attr('method'),
                 data: form.serialize(),
                 success: function (response) {
-                    var not = form.find('textarea[name="Not1"]').val();
-                    $('#notlarListesi').append('<li>' + not + '</li>');
-                    form[0].reset();
+                    if (response.success) {
+                        var not = response.not;
+                        $('#' + listId).append('<li>' + not + '</li>');
+                        form[0].reset();
+                    } else {
+                        alert('Bir hata oluştu: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log('AJAX Hata Detayları:');
+                    console.log('Durum:', status);
+                    console.log('Hata:', error);
+                    console.log('XHR:', xhr);
+                    alert('Bir hata oluştu: ' + error);
                 }
             });
         }

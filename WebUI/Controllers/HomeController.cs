@@ -131,86 +131,134 @@ namespace WebUI.Controllers
                 }
             }
 
+
+
             return RedirectToAction("Index", new { id });
         }
         [HttpPost]
         public IActionResult DegerlendirmeAddDetails1(int id, string tarih1, string saat1, string degerlendirme1, string Not1)
         {
-
-            var hasta = _context.Hastalar.Find(id);
-            if (hasta == null)
+            try
             {
-                
-                return NotFound($" {id} id li Hasta bulunamadı");
+                var hasta = _context.Hastalar.Find(id);
+                if (hasta == null)
+                {
+                    return Json(new { success = false, message = $"{id} id li Hasta bulunamadı" });
+                }
+
+                var degerlendirme = new Degerlendirme
+                {
+                    HastaId = id,
+                    Tarih = tarih1,
+                    Saat = saat1,
+                    DegerlendirmeDurumu = degerlendirme1,
+                    Not = Not1
+                };
+
+                _context.Degerlendirmeler.Add(degerlendirme);
+                _context.SaveChanges();
+
+                return Json(new { success = true, not = degerlendirme.Not });
             }
-
-            var degerlendirme = new Degerlendirme
+            catch (Exception ex)
             {
-                HastaId = id,
-                Tarih = tarih1,
-                Saat = saat1,
-                DegerlendirmeDurumu = degerlendirme1,
-                Not = Not1
-            };
-
-            _context.Degerlendirmeler.Add(degerlendirme);
-            _context.SaveChanges();
-
-            return RedirectToAction("Index", new { id = id });
+                return Json(new { success = false, message = ex.Message });
+            }
         }
 
         [HttpPost]
         public IActionResult DegerlendirmeAddDetails2(int id, string tarih2, string saat2, string degerlendirme2, string Not2)
         {
-            
-            var degerlendirme = new Degerlendirme
+            try
             {
-                HastaId = id,
-                Tarih = tarih2,
-                Saat = saat2,
-                DegerlendirmeDurumu = degerlendirme2,
-                Not = Not2
-            };
-            _context.Degerlendirmeler.Add(degerlendirme);
-            _context.SaveChanges();
+                var hasta = _context.Hastalar.Find(id);
+                if (hasta == null)
+                {
+                    return Json(new { success = false, message = $"{id} id li Hasta bulunamadı" });
+                }
 
-            return RedirectToAction("Index", new { id = id });
+                var degerlendirme = new Degerlendirme
+                {
+                    HastaId = id,
+                    Tarih = tarih2,
+                    Saat = saat2,
+                    DegerlendirmeDurumu = degerlendirme2,
+                    Not = Not2
+                };
+
+                _context.Degerlendirmeler.Add(degerlendirme);
+                _context.SaveChanges();
+
+                return Json(new { success = true, not = degerlendirme.Not });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
 
         [HttpPost]
         public IActionResult DegerlendirmeAddDetails3(int id, string tarih3, string saat3, string degerlendirme3, string Not3)
         {
-            
-            var degerlendirme = new Degerlendirme
-            {
-                HastaId = id,
-                Tarih = tarih3,
-                Saat = saat3,
-                DegerlendirmeDurumu = degerlendirme3,
-                Not = Not3
-            };
-            _context.Degerlendirmeler.Add(degerlendirme);
-            _context.SaveChanges();
 
-            return RedirectToAction("Index", new { id = id });
+            try
+            {
+                var hasta = _context.Hastalar.Find(id);
+                if (hasta == null)
+                {
+                    return Json(new { success = false, message = $"{id} id li Hasta bulunamadı" });
+                }
+
+                var degerlendirme = new Degerlendirme
+                {
+                    HastaId = id,
+                    Tarih = tarih3,
+                    Saat = saat3,
+                    DegerlendirmeDurumu = degerlendirme3,
+                    Not = Not3
+                };
+
+                _context.Degerlendirmeler.Add(degerlendirme);
+                _context.SaveChanges();
+
+                return Json(new { success = true, not = degerlendirme.Not });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
 
         [HttpPost]
         public IActionResult DegerlendirmeAddDetails4(int id, string tarih4, string saat4, string degerlendirme4, string Not4)
         {
-           
-            var degerlendirme = new Degerlendirme
-            {
-                HastaId = id,
-                Tarih = tarih4,
-                Saat = saat4,
-                DegerlendirmeDurumu = degerlendirme4,
-                Not = Not4
-            };
-            _context.Degerlendirmeler.Add(degerlendirme);
-            _context.SaveChanges();
 
-            return RedirectToAction("Index", new { id = id });
+            try
+            {
+                var hasta = _context.Hastalar.Find(id);
+                if (hasta == null)
+                {
+                    return Json(new { success = false, message = $"{id} id li Hasta bulunamadı" });
+                }
+
+                var degerlendirme = new Degerlendirme
+                {
+                    HastaId = id,
+                    Tarih = tarih4,
+                    Saat = saat4,
+                    DegerlendirmeDurumu = degerlendirme4,
+                    Not = Not4
+                };
+
+                _context.Degerlendirmeler.Add(degerlendirme);
+                _context.SaveChanges();
+
+                return Json(new { success = true, not = degerlendirme.Not });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
         public IActionResult HastaListesi()
         {
