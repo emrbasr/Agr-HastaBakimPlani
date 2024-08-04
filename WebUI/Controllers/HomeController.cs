@@ -19,6 +19,8 @@ namespace WebUI.Controllers
             _context = context;
         }
 
+       
+
         public IActionResult Index(int id)
         {
             var model = _context.AgriHastaBakimPlanlari
@@ -51,6 +53,23 @@ namespace WebUI.Controllers
             ViewBag.Girisimler = _context.Girisimler.Where(g => g.Id == id).ToList();
 
             return View(model);
+        }
+
+        public IActionResult YeniHasta()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult HastaEkle(Hasta yeniHasta)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Hastalar.Add(yeniHasta);
+                _context.SaveChanges();
+                return RedirectToAction("Index", new { id = yeniHasta.Id });
+            }
+            return View("YeniHasta", yeniHasta);
         }
 
         [HttpPost]

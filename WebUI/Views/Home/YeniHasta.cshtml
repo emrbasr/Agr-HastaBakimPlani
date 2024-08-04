@@ -1,0 +1,40 @@
+﻿@model Entities.Concrete.Hasta
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeni Hasta Oluştur</title>
+</head>
+<body>
+    <h1>Yeni Hasta Oluştur</h1>
+    <form method="post" asp-action="HastaEkle" asp-controller="Home">
+        <div>
+            <label for="ad">Ad:</label>
+            <input type="text" id="ad" name="Ad" required />
+        </div>
+        <div>
+            <label for="soyad">Soyad:</label>
+            <input type="text" id="soyad" name="Soyad" required />
+        </div>
+        <div>
+            <label for="tani">Tanı:</label>
+            <input type="text" id="tani" name="Tani" />
+        </div>
+        <div>
+            <label for="tanim">Tanım:</label>
+            <input type="text" id="tanim" name="Tanim" />
+        </div>
+        <div>
+            <label for="hemsireTanisi">Hemşire Tanısı:</label>
+            <input type="text" id="hemsireTanisi" name="HemsireTanisi" />
+        </div>
+        <div>
+            <label for="dogumTarihi">Doğum Tarihi:</label>
+            <input type="date" id="dogumTarihi" name="DogumTarihi" />
+        </div>
+        <button type="submit">Ekle</button>
+    </form>
+</body>
+</html>

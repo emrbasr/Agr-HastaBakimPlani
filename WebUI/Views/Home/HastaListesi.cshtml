@@ -4,27 +4,40 @@
     ViewData["Title"] = "Hasta Listesi";
 }
 
-<h2>Hasta Listesi</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Ad</th>
-            <th>Soyad</th>
-            <th>Detay</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var hasta in Model)
-        {
+<h2>Hasta Listesi</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasta Listesi</title>
+</head>
+<body>
+    
+    <table class="table">
+        <thead>
             <tr>
-                <td>@hasta.HastaAdi</td>
-                <td>@hasta.HastaSoyadi</td>
-                <td>
-                    <a asp-controller="Home" asp-action="Index" asp-route-id="@hasta.AgriHastaBakimPlaniId">Detay</a>
-                </td>
+                <th>Ad</th>
+                <th>Soyad</th>
+                <th>Detay</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var hasta in Model)
+            {
+                <tr>
+                    <td>@hasta.HastaAdi</td>
+                    <td>@hasta.HastaSoyadi</td>
+                    <td>
+                        <a asp-controller="Home" asp-action="Index" asp-route-id="@hasta.AgriHastaBakimPlaniId">Detay</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button onclick="window.location.href='@Url.Action("YeniHasta", "Home")'">Yeni Hasta Oluştur</button>
+</body>
+</html>
+
 
