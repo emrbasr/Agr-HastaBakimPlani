@@ -17,6 +17,7 @@ public class Hasta:BaseEntity
     public string? Tani { get; set; }
     public string? Tanim { get; set; }
     public string? HemsireTanisi { get; set; }
-    public DateTime DogumTarihi { get; set; }
+    public DateTime? DogumTarihi { get; set; }
+    public List<Degerlendirme>? Degerlendirmeler { get; set; }
     public ICollection<AgriHastaBakimPlani> AgriHastaBakimPlanlari { get; set; }
 }

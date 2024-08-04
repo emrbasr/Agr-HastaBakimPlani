@@ -29,25 +29,94 @@ body {
 }
 
 .logo {
-    max-width: 100px; /* Logolarýn maksimum geniþliði */
+    width: 100px;
     height: auto;
 }
 
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .header-title {
-    margin: 0 20px;
+    flex-grow: 1;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
 }
 
-.table {
+table {
     width: 100%;
-    table-layout: fixed;
+    border-collapse: collapse;
 }
 
-    .table th, .table td {
-        text-align: center;
-        vertical-align: middle;
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+form {
+    margin-top: 10px;
+}
+
+input[type="text"] {
+    width: 80%;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    margin-left: 5px;
+    padding: 5px 10px;
+}
+
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+}
+
+    .checkbox-group div {
+        margin-bottom: 5px;
     }
 
-        .table td form {
-            margin-top: 10px;
-        }
+.evaluation-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.evaluation-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .evaluation-item input[type="checkbox"],
+    .evaluation-item input[type="radio"] {
+        margin-bottom: 5px;
+    }
+
+    .evaluation-item input[type="text"] {
+        width: 100%;
+        padding: 2px;
+        box-sizing: border-box;
+    }
 

@@ -17,7 +17,10 @@ namespace DataAccess.Context
         public DbSet<Sonuc> Sonuclar { get; set; }
         public DbSet<CheckboxItem> CheckboxItems { get; set; }
         public DbSet<AgriHastaBakimPlani> AgriHastaBakimPlanlari { get; set; }
-
+        public DbSet<Neden> Nedenler { get; set; }
+        public DbSet<TaniOlculeri> TaniOlculeriList { get; set; }
+        public DbSet<Amac> Amaclar { get; set; }
+        public DbSet<Degerlendirme> Degerlendirmeler { get; set; }
         public ApplicationDbContext()
         {
                 
@@ -46,8 +49,27 @@ namespace DataAccess.Context
             .WithMany(p => p.Girisimler)
             .HasForeignKey(g => g.AgriHastaBakimPlaniId);
 
-           
 
+            modelBuilder.Entity<Neden>()
+             .HasOne(n => n.AgriHastaBakimPlani)
+             .WithMany(a => a.Nedenler)
+             .HasForeignKey(n => n.AgriHastaBakimPlaniId);
+
+            modelBuilder.Entity<TaniOlculeri>()
+                .HasOne(t => t.AgriHastaBakimPlani)
+                .WithMany(a => a.TaniOlculeriList)
+                .HasForeignKey(t => t.AgriHastaBakimPlaniId);
+
+            modelBuilder.Entity<Amac>()
+                .HasOne(a => a.AgriHastaBakimPlani)
+                .WithMany(p => p.Amaclar)
+                .HasForeignKey(a => a.AgriHastaBakimPlaniId);
+
+            modelBuilder.Entity<Degerlendirme>()
+                .HasOne(d => d.Hasta)
+                .WithMany(h => h.Degerlendirmeler)
+                .HasForeignKey(d => d.HastaId)
+                .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

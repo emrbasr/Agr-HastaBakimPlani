@@ -19,10 +19,11 @@ namespace Entities.Concrete
         public Hemsire Hemsire { get; set; }
 
         public List<Girisim> Girisimler { get; set; }
-        public List<CheckboxItem> Nedenler { get; set; }
-        public List<CheckboxItem> TaniOlcutleri { get; set; }
-        public List<CheckboxItem> Amaclar { get; set; }
-        public List<CheckboxItem> Degerlendirmeler { get; set; } = new List<CheckboxItem>();
+        public List<Neden> Nedenler { get; set; }
+        public ICollection<TaniOlculeri> TaniOlculeriList { get; set; }
+        public ICollection<Amac> Amaclar { get; set; }
+        public ICollection<Degerlendirme> Degerlendirmeler { get; set; }
+        public List<CheckboxItem> DegerlendirmeItems { get; set; } = new List<CheckboxItem>();
         public List<Sonuc> Sonuclar { get; set; } = new List<Sonuc>();
 
     }

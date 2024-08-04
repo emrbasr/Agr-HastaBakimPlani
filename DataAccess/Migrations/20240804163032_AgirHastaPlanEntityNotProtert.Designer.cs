@@ -4,6 +4,7 @@ using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240804163032_AgirHastaPlanEntityNotProtert")]
+    partial class AgirHastaPlanEntityNotProtert
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,41 +111,6 @@ namespace DataAccess.Migrations
                     b.ToTable("CheckboxItems");
                 });
 
-            modelBuilder.Entity("Entities.Concrete.Degerlendirme", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("AgriHastaBakimPlaniId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DegerlendirmeDurumu")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("HastaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Not")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Saat")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Tarih")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AgriHastaBakimPlaniId");
-
-                    b.HasIndex("HastaId");
-
-                    b.ToTable("Degerlendirmeler");
-                });
-
             modelBuilder.Entity("Entities.Concrete.Girisim", b =>
                 {
                     b.Property<int>("Id")
@@ -180,7 +148,7 @@ namespace DataAccess.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DogumTarihi")
+                    b.Property<DateTime>("DogumTarihi")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("HemsireTanisi")
@@ -330,23 +298,8 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Entities.Concrete.CheckboxItem", b =>
                 {
                     b.HasOne("Entities.Concrete.AgriHastaBakimPlani", null)
-                        .WithMany("DegerlendirmeItems")
-                        .HasForeignKey("AgriHastaBakimPlaniId");
-                });
-
-            modelBuilder.Entity("Entities.Concrete.Degerlendirme", b =>
-                {
-                    b.HasOne("Entities.Concrete.AgriHastaBakimPlani", null)
                         .WithMany("Degerlendirmeler")
                         .HasForeignKey("AgriHastaBakimPlaniId");
-
-                    b.HasOne("Entities.Concrete.Hasta", "Hasta")
-                        .WithMany("Degerlendirmeler")
-                        .HasForeignKey("HastaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Hasta");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Girisim", b =>
@@ -397,8 +350,6 @@ namespace DataAccess.Migrations
                 {
                     b.Navigation("Amaclar");
 
-                    b.Navigation("DegerlendirmeItems");
-
                     b.Navigation("Degerlendirmeler");
 
                     b.Navigation("Girisimler");
@@ -413,8 +364,6 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Entities.Concrete.Hasta", b =>
                 {
                     b.Navigation("AgriHastaBakimPlanlari");
-
-                    b.Navigation("Degerlendirmeler");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Hemsire", b =>

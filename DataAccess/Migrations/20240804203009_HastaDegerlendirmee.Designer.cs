@@ -4,6 +4,7 @@ using DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240804203009_HastaDegerlendirmee")]
+    partial class HastaDegerlendirmee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,9 +119,6 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AgriHastaBakimPlaniId")
-                        .HasColumnType("int");
-
                     b.Property<string>("DegerlendirmeDurumu")
                         .HasColumnType("nvarchar(max)");
 
@@ -135,8 +135,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AgriHastaBakimPlaniId");
 
                     b.HasIndex("HastaId");
 
@@ -330,16 +328,12 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Entities.Concrete.CheckboxItem", b =>
                 {
                     b.HasOne("Entities.Concrete.AgriHastaBakimPlani", null)
-                        .WithMany("DegerlendirmeItems")
+                        .WithMany("Degerlendirmeler")
                         .HasForeignKey("AgriHastaBakimPlaniId");
                 });
 
             modelBuilder.Entity("Entities.Concrete.Degerlendirme", b =>
                 {
-                    b.HasOne("Entities.Concrete.AgriHastaBakimPlani", null)
-                        .WithMany("Degerlendirmeler")
-                        .HasForeignKey("AgriHastaBakimPlaniId");
-
                     b.HasOne("Entities.Concrete.Hasta", "Hasta")
                         .WithMany("Degerlendirmeler")
                         .HasForeignKey("HastaId")
@@ -396,8 +390,6 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Entities.Concrete.AgriHastaBakimPlani", b =>
                 {
                     b.Navigation("Amaclar");
-
-                    b.Navigation("DegerlendirmeItems");
 
                     b.Navigation("Degerlendirmeler");
 

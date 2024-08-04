@@ -26,8 +26,9 @@ namespace WebUI.Controllers
                 .Include(a => a.Hemsire)
                 .Include(a => a.Girisimler)
                 .Include(a => a.Nedenler) 
-                .Include(a => a.TaniOlcutleri) 
+                .Include(a => a.TaniOlculeriList) 
                 .Include(a => a.Amaclar) 
+                .Include(a => a.Degerlendirmeler) 
                 .FirstOrDefault(a => a.Id == id);
 
 
@@ -37,10 +38,10 @@ namespace WebUI.Controllers
                 return NotFound();
             }
 
-            if (model.Degerlendirmeler == null)
-            {
-                model.Degerlendirmeler = new List<CheckboxItem>();
-            }
+            //if (model.Degerlendirmeler == null)
+            //{
+            //    model.Degerlendirmeler = new List<CheckboxItem>();
+            //}
 
             if (model.Sonuclar == null)
             {
@@ -67,6 +68,150 @@ namespace WebUI.Controllers
             return RedirectToAction("Index", new { id = id });
         }
 
+        [HttpPost]
+        public IActionResult NedenAddDetails(int id, string NedenDescription)
+        {
+            if (!string.IsNullOrWhiteSpace(NedenDescription))
+            {
+                var agriHastaBakimPlani = _context.AgriHastaBakimPlanlari.FirstOrDefault(a => a.Id == id);
+                if (agriHastaBakimPlani != null)
+                {
+                    var neden = new Neden
+                    {
+                        Description = NedenDescription,
+                        AgriHastaBakimPlaniId = agriHastaBakimPlani.Id
+                    };
+
+                    _context.Nedenler.Add(neden);
+                    _context.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Index", new { id });
+        }
+
+        [HttpPost]
+        public IActionResult TaniAddDetails(int id, string TaniDescription)
+        {
+            if (!string.IsNullOrWhiteSpace(TaniDescription))
+            {
+                var agriHastaBakimPlani = _context.AgriHastaBakimPlanlari.FirstOrDefault(a => a.Id == id);
+                if (agriHastaBakimPlani != null)
+                {
+                    var tani = new TaniOlculeri
+                    {
+                        Description = TaniDescription,
+                        AgriHastaBakimPlaniId = agriHastaBakimPlani.Id
+                    };
+
+                    _context.TaniOlculeriList.Add(tani);
+                    _context.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Index", new { id });
+        }
+
+        [HttpPost]
+        public IActionResult AmacAddDetails(int id, string AmacDescription)
+        {
+            if (!string.IsNullOrWhiteSpace(AmacDescription))
+            {
+                var agriHastaBakimPlani = _context.AgriHastaBakimPlanlari.FirstOrDefault(a => a.Id == id);
+                if (agriHastaBakimPlani != null)
+                {
+                    var amac = new Amac
+                    {
+                        Description = AmacDescription,
+                        AgriHastaBakimPlaniId = agriHastaBakimPlani.Id
+                    };
+
+                    _context.Amaclar.Add(amac);
+                    _context.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Index", new { id });
+        }
+        [HttpPost]
+        public IActionResult DegerlendirmeAddDetails1(int id, string tarih1, string saat1, string degerlendirme1, string Not1)
+        {
+
+            var hasta = _context.Hastalar.Find(id);
+            if (hasta == null)
+            {
+                
+                return NotFound($" {id} id li Hasta bulunamadı");
+            }
+
+            var degerlendirme = new Degerlendirme
+            {
+                HastaId = id,
+                Tarih = tarih1,
+                Saat = saat1,
+                DegerlendirmeDurumu = degerlendirme1,
+                Not = Not1
+            };
+
+            _context.Degerlendirmeler.Add(degerlendirme);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", new { id = id });
+        }
+
+        [HttpPost]
+        public IActionResult DegerlendirmeAddDetails2(int id, string tarih2, string saat2, string degerlendirme2, string Not2)
+        {
+            
+            var degerlendirme = new Degerlendirme
+            {
+                HastaId = id,
+                Tarih = tarih2,
+                Saat = saat2,
+                DegerlendirmeDurumu = degerlendirme2,
+                Not = Not2
+            };
+            _context.Degerlendirmeler.Add(degerlendirme);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", new { id = id });
+        }
+
+        [HttpPost]
+        public IActionResult DegerlendirmeAddDetails3(int id, string tarih3, string saat3, string degerlendirme3, string Not3)
+        {
+            
+            var degerlendirme = new Degerlendirme
+            {
+                HastaId = id,
+                Tarih = tarih3,
+                Saat = saat3,
+                DegerlendirmeDurumu = degerlendirme3,
+                Not = Not3
+            };
+            _context.Degerlendirmeler.Add(degerlendirme);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", new { id = id });
+        }
+
+        [HttpPost]
+        public IActionResult DegerlendirmeAddDetails4(int id, string tarih4, string saat4, string degerlendirme4, string Not4)
+        {
+           
+            var degerlendirme = new Degerlendirme
+            {
+                HastaId = id,
+                Tarih = tarih4,
+                Saat = saat4,
+                DegerlendirmeDurumu = degerlendirme4,
+                Not = Not4
+            };
+            _context.Degerlendirmeler.Add(degerlendirme);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", new { id = id });
+        }
         public IActionResult HastaListesi()
         {
             var hastalar = _context.Hastalar
@@ -79,6 +224,7 @@ namespace WebUI.Controllers
          }).ToList();
 
             return View(hastalar);
+            
         }
 
         public IActionResult Privacy()
